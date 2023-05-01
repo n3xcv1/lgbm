@@ -5,18 +5,31 @@ import pandas as pd
 root = Tk()
 
 
-#Criando conexão com o Banco de Dados
-conexao = sqlite3.connect('banco.db')
+import os
+import sqlite3
+
+db_file = 'banco.db'
+
+# Verifica se o arquivo de banco de dados já existe
+if os.path.isfile(db_file):
+    # Conecta ao arquivo de banco de dados existente
+    conexao = sqlite3.connect(db_file)
+else:
+    # Cria um novo arquivo de banco de dados
+    conexao = sqlite3.connect(db_file)
 
 cursor = conexao.cursor()
 
-#Criando Tabela e Colunas do Banco de Dados
-cursor.execute('''CREATE TABLE funcionarios (
+# Criando Tabela e Colunas do Banco de Dados, caso ainda não existam
+cursor.execute('''CREATE TABLE IF NOT EXISTS funcionarios (
     nome text,
     email text,
     setor text
     )
 ''')
+
+# Resto do seu código aqui
+
 
 conexao.commit()
 
